@@ -4,7 +4,7 @@ nmax=50
 
 f = open('mbs.txt','r')
 mbs = ast.literal_eval(f.read())
-
+f.close()
 x=[]
 y=[]
 colors=[]
