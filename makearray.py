@@ -1,5 +1,7 @@
-import matplotlib.pyplot as plt
+from numba import jit
+import numpy as np
 nmax=50
+@jit(nopython=True)
 def mandelbrot(c):
     z=0
     n=0
@@ -24,22 +26,32 @@ for a in range(-1500,500+1,1):
     print(a)
     for b in range(-1050,1050+1,1):
         c = complex(-0.019+a/1000,b/1000+0.0)
-        mbs.append([c,mandelbrot(c)])
+        theM = mandelbrot(c)
+        if theM == 0:
+            continue
+        mbs.append([c,theM])
 #print(mbs)
 
-x=[]
-y=[]
-colors=[]
-for jk in range(0,len(mbs)):
-    re = mbs[jk][0].real
-    im = mbs[jk][0].imag
-    x.append(re)
-    y.append(im)
-    col=1-(nmax**0.5*mbs[jk][1]**0.5/(nmax+1))
-    colors.append((col,col,col))
+#x=[]
+#y=[]
+#colors=[]
+#
+#@jit(nopython=True)
+#def colorIn(c):
+#    col=1-(nmax**0.5*c**0.5/(nmax+1))
+#    return col
+#
+#for jk in range(0,len(mbs)):
+#    re = mbs[jk][0].real
+#    im = mbs[jk][0].imag
+#    x.append(re)
+#    y.append(im)
+#    colors.append(colorIn(mbs[jk][1]))
+
 
 #f = open('mbs.txt','w')
 #f.write(str(mbs))
+np.save('mbs',mbs)
 
 #plt.scatter(x,y,marker=',',c=colors,s=1)
 #plt.xlabel("real")
