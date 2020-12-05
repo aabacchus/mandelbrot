@@ -14,10 +14,10 @@ def makeA(x):
     return A
 
 for im in range(50):
-    A=makeA(np.load('mbsNp'+str(im).zfill(3)+'.npy'))
+    A=makeA(np.load('images/mbsNp'+str(im).zfill(3)+'.npy'))
 
     i=Image.fromarray(A,"RGB")
     #print('made image,saving')
     #i.show()
-    i.save('mbsNp'+str(im).zfill(3)+'.png',"PNG")
+    i.save('images/mbsNp'+str(im).zfill(3)+'.png',"PNG")
     print(im)

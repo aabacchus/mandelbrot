@@ -29,7 +29,7 @@ def loop(zoom):
     for a in range(-512,512+1,1):
         row = []
         for b in range(-360,360+1,1):
-            c = complex(-np.e/7-np.e/20+a/(700+zoom),b/(700+zoom)+0.01)
+            c = complex(-np.e/7-np.e/20+a/(700+zoom),b/(700+zoom)-0.6)
             theM = mandelbrot(c)
 #            if theM.real == 0:
 #                continue
@@ -41,6 +41,6 @@ def loop(zoom):
 
 for i in range(50):
     arrNp = loop(100*i)
-    np.save('mbsNp'+str(i).zfill(3),arrNp)
+    np.save('images/mbsNp'+str(i).zfill(3),arrNp)
     print(i)
 #print('saved data from {} to {} as mbsNp.npy'.format(-1500/1000,500/1000))
