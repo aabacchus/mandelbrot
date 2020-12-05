@@ -1,7 +1,7 @@
-from numba import jit
+from numba import njit
 import numpy as np
 nmax=50
-@jit(nopython=True)
+@njit(fastmath=True)
 def mandelbrot(c):
     z=0
     n=0
@@ -22,44 +22,25 @@ def mandelbrot(c):
         n+=1
     return n
 mbs=[]
-for a in range(-1500,500+1,1):
-    print(a)
-    for b in range(-1050,1050+1,1):
-        c = complex(-0.019+a/1000,b/1000+0.0)
-        theM = mandelbrot(c)
-        if theM == 0:
-            continue
-        mbs.append([c,theM])
-#print(mbs)
 
-#x=[]
-#y=[]
-#colors=[]
-#
-#@jit(nopython=True)
-#def colorIn(c):
-#    col=1-(nmax**0.5*c**0.5/(nmax+1))
-#    return col
-#
-#for jk in range(0,len(mbs)):
-#    re = mbs[jk][0].real
-#    im = mbs[jk][0].imag
-#    x.append(re)
-#    y.append(im)
-#    colors.append(colorIn(mbs[jk][1]))
+@njit()
+def loop(zoom):
+    arra = []
+    for a in range(-512,512+1,1):
+        row = []
+        for b in range(-360,360+1,1):
+            c = complex(-np.e/7-np.e/20+a/(700+zoom),b/(700+zoom)+0.01)
+            theM = mandelbrot(c)
+#            if theM.real == 0:
+#                continue
+#            row.append([c,theM.real])
+            row.append(theM.real)
+        arra.append(row)
+#    arrNp = np.array(arra)
+    return arra
 
-
-#f = open('mbs.txt','w')
-#f.write(str(mbs))
-np.save('mbs',mbs)
-
-#plt.scatter(x,y,marker=',',c=colors,s=1)
-#plt.xlabel("real")
-#plt.ylabel("imaginary")
-#plt.title("n < "+str(nmax)+", 4.2M")
-#plt.legend()
-#plt.savefig('m00.svg')
-#for a in range(-74900,-74400-1,1):
-#    print(a)
-#    for b in range(11000,11500,1):
-#        c = complex(a/100000,b/100000)
+for i in range(50):
+    arrNp = loop(100*i)
+    np.save('mbsNp'+str(i).zfill(3),arrNp)
+    print(i)
+#print('saved data from {} to {} as mbsNp.npy'.format(-1500/1000,500/1000))
