@@ -29,7 +29,8 @@ def loop(zoom):
     for a in range(-512,512+1,1):
         row = []
         for b in range(-360,360+1,1):
-            c = complex(-np.e/7-np.e/20+a/(700+zoom),b/(700+zoom)-0.6)
+            c = complex(-0.5616+a/(700+zoom),b/(700+zoom)+0.6432)
+            print(c)
             theM = mandelbrot(c)
 #            if theM.real == 0:
 #                continue
